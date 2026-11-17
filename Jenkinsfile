@@ -10,32 +10,32 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                echo 'Checking out source code from GitHub'
+                echo 'Checking out code from GitHub'
                 checkout scm
             }
         }
 
         stage('Validate Docker Compose') {
             steps {
-                bat 'docker compose config --quiet'
+                bat 'docker compose -p cyber-awareness-system config --quiet'
             }
         }
 
         stage('Build Application') {
             steps {
-                bat 'docker compose build'
+                bat 'docker compose -p cyber-awareness-system build backend frontend'
             }
         }
 
         stage('Deploy Application') {
             steps {
-                bat 'docker compose up -d'
+                bat 'docker compose -p cyber-awareness-system up -d backend frontend'
             }
         }
 
         stage('Verify Deployment') {
             steps {
-                bat 'docker compose ps'
+                bat 'docker compose -p cyber-awareness-system ps'
             }
         }
     }
